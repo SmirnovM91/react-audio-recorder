@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 
 export interface recorderControls {
   startRecording: () => void;
@@ -25,7 +25,8 @@ const useAudioRecorder: () => recorderControls = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
-  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>();
+  const mediaRecorder = useRef<MediaRecorder | null>();
+
   const [timerInterval, setTimerInterval] = useState<NodeJS.Timer>();
   const [recordingBlob, setRecordingBlob] = useState<Blob>();
 
@@ -52,20 +53,21 @@ const useAudioRecorder: () => recorderControls = () => {
       .then((stream) => {
         setIsRecording(true);
         const chunks: Blob[] = [];
-        const recorder: MediaRecorder = new MediaRecorder(stream);
-        recorder.addEventListener("dataavailable", (event) => {
-          // setRecordingBlob(event.data);
+
+        mediaRecorder.current = new MediaRecorder(stream);
+        mediaRecorder.current?.addEventListener("dataavailable", (event) => {
           if (event.data.size > 0) {
             chunks.push(event.data);
           }
         });
-        recorder.addEventListener("stop", () => {
-          recorder.stream.getTracks().forEach((t) => t.stop());
-          setRecordingBlob(new Blob(chunks, { type: "audio/webm" }));
-          setMediaRecorder(null);
+        mediaRecorder.current?.addEventListener("stop", () => {
+          setRecordingBlob(
+            new Blob(chunks, { type: mediaRecorder.current?.mimeType })
+          );
+          mediaRecorder.current = null;
         });
-        setMediaRecorder(recorder);
-        recorder.start();
+
+        mediaRecorder.current?.start();
         _startTimer();
       })
       .catch((err) => console.log(err));
@@ -75,7 +77,8 @@ const useAudioRecorder: () => recorderControls = () => {
    * Calling this method results in a recording in progress being stopped and the resulting audio being present in `recordingBlob`. Sets `isRecording` to false
    */
   const stopRecording: () => void = () => {
-    mediaRecorder?.stop();
+    mediaRecorder?.current?.stop();
+    mediaRecorder?.current?.stream.getTracks().forEach((t) => t.stop());
     _stopTimer();
     setRecordingTime(0);
     setIsRecording(false);
@@ -88,12 +91,12 @@ const useAudioRecorder: () => recorderControls = () => {
   const togglePauseResume: () => void = () => {
     if (isPaused) {
       setIsPaused(false);
-      mediaRecorder?.resume();
+      mediaRecorder?.current?.resume();
       _startTimer();
     } else {
       setIsPaused(true);
       _stopTimer();
-      mediaRecorder?.pause();
+      mediaRecorder?.current?.pause();
     }
   };
 
