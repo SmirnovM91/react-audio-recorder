@@ -61,6 +61,7 @@ const useAudioRecorder: () => recorderControls = () => {
           }
         });
         mediaRecorder.current?.addEventListener("stop", () => {
+          console.log(chunks, mediaRecorder.current?.mimeType);
           setRecordingBlob(
             new Blob(chunks, { type: mediaRecorder.current?.mimeType })
           );
