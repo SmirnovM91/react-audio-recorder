@@ -51,16 +51,22 @@ const useAudioRecorder: () => recorderControls = () => {
       .getUserMedia({ audio: true })
       .then((stream) => {
         setIsRecording(true);
+        const chunks: Blob[] = [];
         const recorder: MediaRecorder = new MediaRecorder(stream);
+        recorder.addEventListener("dataavailable", (event) => {
+          // setRecordingBlob(event.data);
+          if (event.data.size > 0) {
+            chunks.push(event.data);
+          }
+        });
+        recorder.addEventListener("stop", () => {
+          recorder.stream.getTracks().forEach((t) => t.stop());
+          setRecordingBlob(new Blob(chunks));
+          setMediaRecorder(null);
+        });
         setMediaRecorder(recorder);
         recorder.start();
         _startTimer();
-
-        recorder.addEventListener("dataavailable", (event) => {
-          setRecordingBlob(event.data);
-          recorder.stream.getTracks().forEach((t) => t.stop());
-          setMediaRecorder(null);
-        });
       })
       .catch((err) => console.log(err));
   }, [timerInterval]);
