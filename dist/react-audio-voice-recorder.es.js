@@ -1,7 +1,7 @@
 (function(){"use strict";try{if(typeof document!="undefined"){var e=document.createElement("style");e.appendChild(document.createTextNode(".audio-recorder{background-color:#ebebeb;box-shadow:0 2px 5px #bebebe;border-radius:20px;width:40px;display:flex;align-items:center;transition:all .2s ease-in}.audio-recorder-mic{color:#000;padding:0;width:40px;height:40px}.audio-recorder .audio-recorder-mic{border-radius:20px}.audio-recorder.recording .audio-recorder-mic{border-radius:0}.audio-recorder-timer,.audio-recorder-status{margin-left:10px;font-family:Segoe UI,Tahoma,Geneva,Verdana,sans-serif;font-size:14px;font-weight:400;line-height:1}.audio-recorder-status{margin-left:15px;display:flex;align-items:baseline;flex-grow:1;animation-name:fading-ar-status;animation-duration:2s;animation-iteration-count:infinite}.audio-recorder-status-dot{background-color:#d00;border-radius:50%;height:10px;width:9px;margin-right:5px}.audio-recorder-options{height:16px;cursor:pointer;padding:12px 6px 12px 12px}.audio-recorder-options~.audio-recorder-options{padding:12px 12px 12px 6px;border-radius:0 5px 5px 0}.recording{border-radius:12px;width:300px;transition:all .2s ease-out}.display-none{display:none}@keyframes fading-ar-status{0%{opacity:1}50%{opacity:0}to{opacity:1}}.audio-recorder-mic-button{width:50px;height:50px;border-radius:50%;background-color:#ebebeb;cursor:pointer;padding:15px;display:flex;align-items:center;justify-content:center}")),document.head.appendChild(e)}}catch(r){console.error("vite-plugin-css-injected-by-js",r)}})();
 import t, { useState as L, useCallback as l, useEffect as v } from "react";
 const k = () => {
-  const [w, N] = L(!1), [M, r] = L(!1), [C, I] = L(0), [i, e] = L(), [g, a] = L(), [D, m] = L(), z = () => {
+  const [w, N] = L(!1), [M, r] = L(!1), [C, I] = L(0), [i, e] = L(), [g, a] = L(), [m, D] = L(), z = () => {
     const c = setInterval(() => {
       I((j) => j + 1);
     }, 1e3);
@@ -17,7 +17,7 @@ const k = () => {
         d.addEventListener("dataavailable", (o) => {
           o.data.size > 0 && j.push(o.data);
         }), d.addEventListener("stop", () => {
-          d.stream.getTracks().forEach((o) => o.stop()), m(new Blob(j)), e(null);
+          d.stream.getTracks().forEach((o) => o.stop()), D(new Blob(j, { type: "audio/webm" })), e(null);
         }), e(d), d.start(), z();
       }).catch((c) => console.log(c));
     }, [g]),
@@ -27,7 +27,7 @@ const k = () => {
     togglePauseResume: () => {
       M ? (r(!1), i == null || i.resume(), z()) : (r(!0), u(), i == null || i.pause());
     },
-    recordingBlob: D,
+    recordingBlob: m,
     isRecording: w,
     isPaused: M,
     recordingTime: C
@@ -38,7 +38,7 @@ const x = ({
   recorderControls: N,
   classes: M
 }) => {
-  var u, n, S, y, c, j, d, o;
+  var u, n, y, S, c, j, d, o;
   const {
     startRecording: r,
     stopRecording: C,
@@ -47,16 +47,16 @@ const x = ({
     isRecording: e,
     isPaused: g,
     recordingTime: a
-  } = N != null ? N : k(), [D, m] = L(!1), z = (T = !0) => {
-    m(T), C();
+  } = N != null ? N : k(), [m, D] = L(!1), z = (T = !0) => {
+    D(T), C();
   };
   return v(() => {
-    (D || N) && i != null && w != null && w(i);
+    (m || N) && i != null && w != null && w(i);
   }, [i]), e ? /* @__PURE__ */ t.createElement("div", {
-    className: `audio-recorder ${e ? "recording" : ""} ${(S = M == null ? void 0 : M.AudioRecorderClass) != null ? S : ""}`,
+    className: `audio-recorder ${e ? "recording" : ""} ${(y = M == null ? void 0 : M.AudioRecorderClass) != null ? y : ""}`,
     "data-testid": "audio_recorder"
   }, e ? /* @__PURE__ */ t.createElement("span", {
-    className: `audio-recorder-status ${e ? "" : "display-none"} ${(y = M == null ? void 0 : M.AudioRecorderStatusClass) != null ? y : ""}`
+    className: `audio-recorder-status ${e ? "" : "display-none"} ${(S = M == null ? void 0 : M.AudioRecorderStatusClass) != null ? S : ""}`
   }, /* @__PURE__ */ t.createElement("span", {
     className: "audio-recorder-status-dot"
   }), "Recording") : /* @__PURE__ */ t.createElement("img", {

@@ -61,7 +61,7 @@ const useAudioRecorder: () => recorderControls = () => {
         });
         recorder.addEventListener("stop", () => {
           recorder.stream.getTracks().forEach((t) => t.stop());
-          setRecordingBlob(new Blob(chunks));
+          setRecordingBlob(new Blob(chunks, { type: "audio/webm" }));
           setMediaRecorder(null);
         });
         setMediaRecorder(recorder);
