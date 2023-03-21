@@ -51,7 +51,6 @@ const useAudioRecorder: () => recorderControls = () => {
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
-        setIsRecording(true);
         const chunks: Blob[] = [];
 
         mediaRecorder.current = new MediaRecorder(stream);
@@ -69,6 +68,7 @@ const useAudioRecorder: () => recorderControls = () => {
 
         mediaRecorder.current?.start();
         _startTimer();
+        setIsRecording(true);
       })
       .catch((err) => console.log(err));
   }, [timerInterval]);

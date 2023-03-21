@@ -13,7 +13,6 @@ const A = () => {
     startRecording: v(() => {
       t == null && navigator.mediaDevices.getUserMedia({ audio: !0 }).then((e) => {
         var u, o, a;
-        N(!0);
         const c = [];
         i.current = new MediaRecorder(e), (u = i.current) == null || u.addEventListener("dataavailable", (g) => {
           g.data.size > 0 && c.push(g.data);
@@ -22,7 +21,7 @@ const A = () => {
           D(
             new Blob(c, { type: (g = i.current) == null ? void 0 : g.mimeType })
           ), i.current = null;
-        }), (a = i.current) == null || a.start(), C();
+        }), (a = i.current) == null || a.start(), C(), N(!0);
       }).catch((e) => console.log(e));
     }, [t]),
     stopRecording: () => {
