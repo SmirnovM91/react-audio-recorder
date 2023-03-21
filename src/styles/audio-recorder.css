@@ -13,10 +13,10 @@
 }
 
 .audio-recorder-mic {
-  cursor: pointer;
-  height: 16px;
   color: black;
-  padding: 12px;
+  padding: 0;
+  width: 40px;
+  height: 40px;
 }
 
 .audio-recorder .audio-recorder-mic {
@@ -84,4 +84,15 @@
   100% {
     opacity: 1;
   }
+}
+.audio-recorder-mic-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgb(235, 235, 235);
+  cursor: pointer;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
