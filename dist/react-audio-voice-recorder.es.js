@@ -14,7 +14,9 @@ const A = () => {
       t == null && navigator.mediaDevices.getUserMedia({ audio: !0 }).then((e) => {
         var u, o, a;
         const c = [];
-        i.current = new MediaRecorder(e), (u = i.current) == null || u.addEventListener("dataavailable", (g) => {
+        i.current = new MediaRecorder(e, {
+          mimeType: "audio/webm"
+        }), (u = i.current) == null || u.addEventListener("dataavailable", (g) => {
           g.data.size > 0 && c.push(g.data);
         }), (o = i.current) == null || o.addEventListener("stop", () => {
           var g;

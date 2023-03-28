@@ -52,8 +52,9 @@ const useAudioRecorder: () => recorderControls = () => {
       .getUserMedia({ audio: true })
       .then((stream) => {
         const chunks: Blob[] = [];
-
-        mediaRecorder.current = new MediaRecorder(stream);
+        mediaRecorder.current = new MediaRecorder(stream, {
+          mimeType: "audio/webm",
+        });
         mediaRecorder.current?.addEventListener("dataavailable", (event) => {
           if (event.data.size > 0) {
             chunks.push(event.data);
