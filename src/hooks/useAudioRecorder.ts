@@ -52,10 +52,12 @@ const useAudioRecorder: () => recorderControls = () => {
       .getUserMedia({ audio: true })
       .then((stream) => {
         const chunks: Blob[] = [];
+        const mimeType = MediaRecorder.isTypeSupported("audio/webm")
+          ? "audio/webm"
+          : "audio/mp4";
+        console.log(mimeType);
         mediaRecorder.current = new MediaRecorder(stream, {
-          mimeType: MediaRecorder.isTypeSupported("audio/webm")
-            ? "audio/webm"
-            : "audio/mp4",
+          mimeType: mimeType,
         });
         mediaRecorder.current?.addEventListener("dataavailable", (event) => {
           if (event.data.size > 0) {
