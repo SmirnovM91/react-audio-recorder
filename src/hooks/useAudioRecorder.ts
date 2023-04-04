@@ -55,7 +55,7 @@ const useAudioRecorder: () => recorderControls = () => {
         const mimeType = MediaRecorder.isTypeSupported("audio/webm")
           ? "audio/webm"
           : "audio/mp4";
-        console.log(mimeType);
+
         mediaRecorder.current = new MediaRecorder(stream, {
           mimeType: mimeType,
         });

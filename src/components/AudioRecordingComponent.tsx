@@ -109,7 +109,7 @@ const AudioRecorder: (props: Props) => ReactElement = ({
         {String(recordingTime % 60).padStart(2, "0")}
       </span>
 
-      <img
+      {/* <img
         src={isPaused ? resumeSVG : pauseSVG}
         className={`audio-recorder-options ${
           !isRecording ? "display-none" : ""
@@ -117,7 +117,7 @@ const AudioRecorder: (props: Props) => ReactElement = ({
         onClick={togglePauseResume}
         title={isPaused ? "Resume recording" : "Pause recording"}
         data-testid="ar_pause"
-      />
+      /> */}
       <img
         src={discardSVG}
         className={`audio-recorder-options ${
