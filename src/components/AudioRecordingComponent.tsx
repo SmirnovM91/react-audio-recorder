@@ -3,9 +3,7 @@ import { Props } from "./interfaces";
 import useAudioRecorder from "../hooks/useAudioRecorder";
 
 import micSVG from "../icons/mic.svg";
-import pauseSVG from "../icons/pause.svg";
-import resumeSVG from "../icons/play.svg";
-import saveSVG from "../icons/save.svg";
+
 import discardSVG from "../icons/stop.svg";
 import "../styles/audio-recorder.css";
 
@@ -22,6 +20,7 @@ const AudioRecorder: (props: Props) => ReactElement = ({
   onRecordingComplete,
   recorderControls,
   classes,
+  onError,
 }: Props) => {
   const {
     startRecording,
@@ -41,6 +40,10 @@ const AudioRecorder: (props: Props) => ReactElement = ({
     stopRecording();
   };
 
+  const handleStart = () => {
+    startRecording(onError);
+  };
+
   useEffect(() => {
     if (
       (shouldSave || recorderControls) &&
@@ -57,7 +60,7 @@ const AudioRecorder: (props: Props) => ReactElement = ({
         className={`audio-recorder-mic-button ${
           classes?.AudioRecorderClass ?? ""
         }`}
-        onClick={startRecording}
+        onClick={handleStart}
       >
         <img
           src={micSVG}
@@ -93,7 +96,7 @@ const AudioRecorder: (props: Props) => ReactElement = ({
           className={`audio-recorder-mic ${
             classes?.AudioRecorderStartSaveClass ?? ""
           }`}
-          onClick={startRecording}
+          onClick={handleStart}
           data-testid="ar_mic"
           title={"start recording"}
         />

@@ -1,5 +1,5 @@
 export interface recorderControls {
-    startRecording: () => void;
+    startRecording: (onError?: (error: any) => void) => void;
     stopRecording: () => void;
     togglePauseResume: () => void;
     recordingBlob?: Blob;

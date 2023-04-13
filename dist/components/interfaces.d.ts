@@ -41,5 +41,9 @@ export interface Props {
      * Custom classes to changes styles.
      **/
     classes?: StyleProps;
+    /**
+     * This gets called when error
+     **/
+    onError?: (error: any) => void;
 }
 export {};

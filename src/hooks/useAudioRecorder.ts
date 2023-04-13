@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef } from "react";
 
 export interface recorderControls {
-  startRecording: () => void;
+  startRecording: (onError?: (error: any) => void) => void;
   stopRecording: () => void;
   togglePauseResume: () => void;
   recordingBlob?: Blob;
@@ -45,38 +45,43 @@ const useAudioRecorder: () => recorderControls = () => {
   /**
    * Calling this method would result in the recording to start. Sets `isRecording` to true
    */
-  const startRecording: () => void = useCallback(() => {
-    if (timerInterval != null) return;
+  const startRecording: () => void = useCallback(
+    (onError?: (error: any) => void) => {
+      if (timerInterval != null) return;
 
-    navigator.mediaDevices
-      .getUserMedia({ audio: true })
-      .then((stream) => {
-        const chunks: Blob[] = [];
-        const mimeType = MediaRecorder.isTypeSupported("audio/webm")
-          ? "audio/webm"
-          : "audio/mp4";
+      navigator.mediaDevices
+        .getUserMedia({ audio: true })
+        .then((stream) => {
+          const chunks: Blob[] = [];
+          const mimeType = MediaRecorder.isTypeSupported("audio/webm")
+            ? "audio/webm"
+            : "audio/mp4";
 
-        mediaRecorder.current = new MediaRecorder(stream, {
-          mimeType: mimeType,
-        });
-        mediaRecorder.current?.addEventListener("dataavailable", (event) => {
-          if (event.data.size > 0) {
-            chunks.push(event.data);
-          }
-        });
-        mediaRecorder.current?.addEventListener("stop", () => {
-          setRecordingBlob(
-            new Blob(chunks, { type: mediaRecorder.current?.mimeType })
-          );
-          mediaRecorder.current = null;
-        });
+          mediaRecorder.current = new MediaRecorder(stream, {
+            mimeType: mimeType,
+          });
+          mediaRecorder.current?.addEventListener("dataavailable", (event) => {
+            if (event.data.size > 0) {
+              chunks.push(event.data);
+            }
+          });
+          mediaRecorder.current?.addEventListener("stop", () => {
+            setRecordingBlob(
+              new Blob(chunks, { type: mediaRecorder.current?.mimeType })
+            );
+            mediaRecorder.current = null;
+          });
 
-        mediaRecorder.current?.start();
-        _startTimer();
-        setIsRecording(true);
-      })
-      .catch((err) => console.log(err));
-  }, [timerInterval]);
+          mediaRecorder.current?.start();
+          _startTimer();
+          setIsRecording(true);
+        })
+        .catch((err) => {
+          onError && onError(err);
+        });
+    },
+    [timerInterval]
+  );
 
   /**
    * Calling this method results in a recording in progress being stopped and the resulting audio being present in `recordingBlob`. Sets `isRecording` to false
