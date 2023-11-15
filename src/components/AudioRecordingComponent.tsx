@@ -4,7 +4,7 @@ import useAudioRecorder from "../hooks/useAudioRecorder";
 
 import micSVG from "../icons/mic.svg";
 
-import discardSVG from "../icons/stop.svg";
+import stopSVG from "../icons/stop.svg";
 import "../styles/audio-recorder.css";
 
 /**
@@ -21,14 +21,13 @@ const AudioRecorder: (props: Props) => ReactElement = ({
   recorderControls,
   classes,
   onError,
+  onRecordingStart,
 }: Props) => {
   const {
     startRecording,
     stopRecording,
-    togglePauseResume,
     recordingBlob,
     isRecording,
-    isPaused,
     recordingTime,
     // eslint-disable-next-line react-hooks/rules-of-hooks
   } = recorderControls ?? useAudioRecorder();
@@ -41,6 +40,7 @@ const AudioRecorder: (props: Props) => ReactElement = ({
   };
 
   const handleStart = () => {
+    onRecordingStart?.();
     startRecording(onError);
   };
 
@@ -57,14 +57,14 @@ const AudioRecorder: (props: Props) => ReactElement = ({
   if (!isRecording) {
     return (
       <div
-        className={`audio-recorder-mic-button ${
+        className={`audio-recorder-button-button ${
           classes?.AudioRecorderClass ?? ""
         }`}
         onClick={handleStart}
       >
         <img
           src={micSVG}
-          className={`audio-recorder-mic ${
+          className={`audio-recorder-button ${
             classes?.AudioRecorderStartSaveClass ?? ""
           }`}
           data-testid="ar_mic"
@@ -82,18 +82,22 @@ const AudioRecorder: (props: Props) => ReactElement = ({
       data-testid="audio_recorder"
     >
       {isRecording ? (
-        <span
-          className={`audio-recorder-status ${
-            !isRecording ? "display-none" : ""
-          } ${classes?.AudioRecorderStatusClass ?? ""}`}
-        >
-          <span className="audio-recorder-status-dot"></span>
-          Recording
-        </span>
+        <div className="audio-recorder-button-container">
+          <div className="audio-recorder-button-status"></div>
+          <img
+            src={stopSVG}
+            className={`audio-recorder-button ${
+              classes?.AudioRecorderDiscardClass ?? ""
+            }`}
+            onClick={() => stopAudioRecorder(true)}
+            data-testid="ar_stop"
+            title={"stop recording"}
+          />
+        </div>
       ) : (
         <img
           src={micSVG}
-          className={`audio-recorder-mic ${
+          className={`audio-recorder-button ${
             classes?.AudioRecorderStartSaveClass ?? ""
           }`}
           onClick={handleStart}
@@ -108,28 +112,12 @@ const AudioRecorder: (props: Props) => ReactElement = ({
         } ${classes?.AudioRecorderTimerClass ?? ""}`}
         data-testid="ar_timer"
       >
-        {Math.floor(recordingTime / 60)}:
-        {String(recordingTime % 60).padStart(2, "0")}
+        <div className="audio-recorder-timer-dot"></div>
+        <div>
+          {Math.floor(recordingTime / 60)}:
+          {String(recordingTime % 60).padStart(2, "0")}
+        </div>
       </span>
-
-      {/* <img
-        src={isPaused ? resumeSVG : pauseSVG}
-        className={`audio-recorder-options ${
-          !isRecording ? "display-none" : ""
-        } ${classes?.AudioRecorderPauseResumeClass ?? ""}`}
-        onClick={togglePauseResume}
-        title={isPaused ? "Resume recording" : "Pause recording"}
-        data-testid="ar_pause"
-      /> */}
-      <img
-        src={discardSVG}
-        className={`audio-recorder-options ${
-          !isRecording ? "display-none" : ""
-        } ${classes?.AudioRecorderDiscardClass ?? ""}`}
-        onClick={() => stopAudioRecorder(true)}
-        title="Discard Recording"
-        data-testid="ar_cancel"
-      />
     </div>
   );
 };

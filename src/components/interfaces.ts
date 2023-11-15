@@ -47,4 +47,8 @@ export interface Props {
    * This gets called when error
    **/
   onError?: (error: any) => void;
+  /**
+   * This gets called when the start button is clicked.
+   **/
+  onRecordingStart?: () => void;
 }

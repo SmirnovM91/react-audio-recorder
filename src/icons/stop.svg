@@ -1,9 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 46.734 46.734" style="enable-background:new 0 0 46.734 46.734;" xml:space="preserve">
-<g>
-	<path d="M41.346,0H5.388C2.417,0,0,2.417,0,5.388v35.958c0,2.971,2.417,5.388,5.388,5.388h35.958c2.971,0,5.388-2.417,5.388-5.388
-		V5.388C46.733,2.417,44.316,0,41.346,0z"/>
-</g>
+<svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path opacity="0.2" d="M9.30297 27.6969V9.30297H27.6969V27.6969H9.30297Z" fill="white" stroke="white" stroke-width="2.82079"/>
+<path d="M28.1429 7.89258H8.85688C8.32431 7.89258 7.89258 8.32431 7.89258 8.85688V28.1429C7.89258 28.6755 8.32431 29.1072 8.85688 29.1072H28.1429C28.6755 29.1072 29.1072 28.6755 29.1072 28.1429V8.85688C29.1072 8.32431 28.6755 7.89258 28.1429 7.89258Z" stroke="white" stroke-width="2.82079" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
