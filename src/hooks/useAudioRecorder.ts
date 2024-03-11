@@ -21,7 +21,9 @@ export interface recorderControls {
  * @details `isPaused`: A boolean value that represents whether a recording in progress is paused
  * @details `recordingTime`: Number of seconds that the recording has gone on. This is updated every second
  */
-const useAudioRecorder: () => recorderControls = (deviceId = "default") => {
+const useAudioRecorder: (deviceId?: string) => recorderControls = (
+  deviceId = "default"
+) => {
   const [isRecording, setIsRecording] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
