@@ -80,7 +80,7 @@ const useAudioRecorder: () => recorderControls = (deviceId = "default") => {
           onError && onError(err);
         });
     },
-    [timerInterval]
+    [timerInterval, deviceId]
   );
 
   /**
