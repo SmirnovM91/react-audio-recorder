@@ -6,7 +6,7 @@ export interface recorderControls {
     isRecording: boolean;
     isPaused: boolean;
     recordingTime: number;
-    recordingStream?: MediaStream;
+    mediaRecorder?: MediaRecorder | null;
 }
 /**
  * @returns Controls for the recording. Details of returned controls are given below
