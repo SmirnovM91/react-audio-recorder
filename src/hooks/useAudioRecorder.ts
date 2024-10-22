@@ -8,6 +8,7 @@ export interface recorderControls {
   isRecording: boolean;
   isPaused: boolean;
   recordingTime: number;
+  recordingStream?: MediaStream;
 }
 
 /**
@@ -31,6 +32,8 @@ const useAudioRecorder: (deviceId?: string) => recorderControls = (
 
   const [timerInterval, setTimerInterval] = useState<NodeJS.Timer>();
   const [recordingBlob, setRecordingBlob] = useState<Blob>();
+
+  const [recordingStream, setRecordingStream] = useState<MediaStream>();
 
   const _startTimer: () => void = () => {
     const interval = setInterval(() => {
@@ -58,6 +61,8 @@ const useAudioRecorder: (deviceId?: string) => recorderControls = (
           const mimeType = MediaRecorder.isTypeSupported("audio/webm")
             ? "audio/webm"
             : "audio/mp4";
+
+          setRecordingStream(stream);
 
           mediaRecorder.current = new MediaRecorder(stream, {
             mimeType: mimeType,
@@ -95,6 +100,7 @@ const useAudioRecorder: (deviceId?: string) => recorderControls = (
     setRecordingTime(0);
     setIsRecording(false);
     setIsPaused(false);
+    setRecordingStream(undefined);
   };
 
   /**
@@ -120,6 +126,7 @@ const useAudioRecorder: (deviceId?: string) => recorderControls = (
     isRecording,
     isPaused,
     recordingTime,
+    recordingStream,
   };
 };
 
