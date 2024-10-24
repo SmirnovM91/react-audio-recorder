@@ -63,7 +63,7 @@ const U = ({
   } = j != null ? j : Y(), [A, z] = D(!1), T = (l = !0) => {
     z(l), o();
   }, r = () => {
-    u == null || u(), n(y);
+    n(y), u == null || u();
   };
   return s(() => {
     (A || j) && I != null && g != null && g(I);

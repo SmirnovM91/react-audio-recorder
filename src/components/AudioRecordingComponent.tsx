@@ -40,8 +40,8 @@ const AudioRecorder: (props: Props) => ReactElement = ({
   };
 
   const handleStart = () => {
-    onRecordingStart?.();
     startRecording(onError);
+    onRecordingStart?.();
   };
 
   useEffect(() => {
